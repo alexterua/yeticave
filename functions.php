@@ -1,5 +1,17 @@
 <?php
 
+function get_lifetime()
+{
+    $current_time = strtotime(date('H:i:s'));
+    $midnight_time = strtotime('tomorrow');
+    $seconds_to_midnight = $midnight_time - $current_time;
+
+    $hours = floor($seconds_to_midnight / 3600);
+    $minutes = floor(($seconds_to_midnight % 3600) / 60);
+
+    return $hours . ':' . $minutes;
+}
+
 function render_template(string $path, array $data)
 {
     if (isset($path)) {

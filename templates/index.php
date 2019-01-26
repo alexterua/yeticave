@@ -41,7 +41,7 @@
                             <span class="lot__cost"><?=format_price(htmlspecialchars($lot['price'])); ?></span>
                         </div>
                         <div class="lot__timer timer">
-
+                            <?=get_lifetime(); ?>
                         </div>
                     </div>
                 </div>
