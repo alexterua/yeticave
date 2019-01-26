@@ -45,6 +45,17 @@ $lots = [
             ]
 ];
 
+function format_price($price) {
+    $format_price = ceil($price);
+
+    if ($format_price < 1000) {
+        return $format_price . ' &#x20BD;';
+    } else {
+        $format_price = number_format($format_price, 0, ',',  ' ');
+        return $format_price . ' &#x20BD;';
+    }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -133,7 +144,7 @@ $lots = [
                     <div class="lot__state">
                         <div class="lot__rate">
                             <span class="lot__amount">Стартовая цена</span>
-                            <span class="lot__cost"><?=$lot['price']; ?><b class="rub">р</b></span>
+                            <span class="lot__cost"><?=format_price($lot['price']); ?></span>
                         </div>
                         <div class="lot__timer timer">
 
