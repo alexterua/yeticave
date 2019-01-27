@@ -8,7 +8,7 @@ date_default_timezone_set("Europe/Kiev");
 $content = render_template('index', [
     'lots' => $lots
 ]);
-print $layout = render_template('layout', [
+$layout = render_template('layout', [
     'title' => 'Главная',
     'content' => $content,
     'is_auth' => $is_auth,
@@ -16,4 +16,6 @@ print $layout = render_template('layout', [
     'user_name' => $user_name,
     'categories' => $categories
 ]);
+
+print $layout;
 
