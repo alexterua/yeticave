@@ -15,7 +15,25 @@ if (isset($_GET['id'])) {
             break;
         }
     }
+
+    // Установка или обработка COOKIE
+    $viewed_lots = [];
+    if (isset($_COOKIE['viewed_lots'])) {
+        $viewed_lots = json_decode($_COOKIE['viewed_lots']);
+        // Проверка на повторяющиеся элементы
+        foreach ($viewed_lots as $index) {
+            if ($index != $id) {
+                $viewed_lots[] = $id;
+            }
+        }
+    } else {
+        $viewed_lots[] = $id;
+    }
+
+    setcookie('viewed_lots', json_encode($viewed_lots));
 }
+
+//var_dump($viewed_lots);
 
 if (!$lot) {
     http_response_code('404');
