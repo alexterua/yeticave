@@ -1,5 +1,18 @@
 <?php
 
+function searchUserByEmail(string $email, array $users) {
+    foreach ($users as $user) {
+        if ($user['email'] === $email) {
+            return $user;
+        }
+    }
+    return false;
+}
+
+function security(string $item) {
+    return htmlspecialchars(trim($item));
+}
+
 function get_lifetime()
 {
     $current_time = strtotime(date('H:i:s'));

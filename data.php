@@ -1,6 +1,6 @@
 <?php
 
-$is_auth = (bool) rand(0, 1);
+$is_auth = $_SESSION['user']['name'] ?? false;/*(bool) rand(0, 1);*/
 
 $user_name = 'Константин';
 $user_avatar = 'img/user.jpg';

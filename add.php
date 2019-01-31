@@ -3,6 +3,13 @@
 require_once  __DIR__ . '/data.php';
 require_once __DIR__ . '/functions.php';
 
+session_start();
+
+if (!isset($_SESSION['user'])) {
+    header("HTTP/1.1 403 Страница доступна только для зарегистрированных пользователей");
+    die;
+}
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
    $lot = $_POST;
@@ -11,11 +18,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $required_fields = ['name', 'category', 'description', 'price', 'step', 'date'];
     $errors = [];
 
-    foreach ($required_fields as $key) {
+    foreach ($required_fields as $field) {
 
         // Проверка на незаполненные поля
-        if (empty($lot[$key])) {
-            $errors[$key] = 'Это поле нужно заполнить';
+        if (empty($lot[$field])) {
+            $errors[$field] = 'Это поле нужно заполнить';
         }
     }
 
@@ -54,17 +61,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Проверка на наличие ошибок и вывод соответствующего шаблона
     if (count($errors)) {
-        $content = render_template('add-lot', ['lot' => $lot, 'errors' => $errors, 'categories' => $categories]);
+        $content = render_template('add', ['lot' => $lot, 'errors' => $errors, 'categories' => $categories]);
     } else {
         $content = render_template('lot', ['lot' => $lot]);
     }
 
 } else {
-    $content = render_template('add-lot', ['categories' => $categories]);
+    $content = render_template('add', ['categories' => $categories]);
 }
 
 $layout = render_template('layout', [
     'title' => 'Добавление лота',
+    'username' => $_SESSION['user']['name'],
     'content' => $content,
     'is_auth' => $is_auth,
     'user_avatar' => $user_avatar,

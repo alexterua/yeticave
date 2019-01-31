@@ -3,6 +3,8 @@
 require_once  __DIR__ . '/data.php';
 require_once __DIR__ . '/functions.php';
 
+session_start();
+
 $lot = null;
 
 if (isset($_GET['id'])) {
@@ -16,7 +18,7 @@ if (isset($_GET['id'])) {
         }
     }
 
-    // Установка или обработка COOKIE
+    // Установка COOKIE
     $viewed_lots = [];
     if (isset($_COOKIE['viewed_lots'])) {
         $viewed_lots = json_decode($_COOKIE['viewed_lots']);
@@ -26,18 +28,18 @@ if (isset($_GET['id'])) {
                 $viewed_lots[] = $id;
             }
         }
+        $viewed_lots = array_unique($viewed_lots);
     } else {
         $viewed_lots[] = $id;
     }
 
-    setcookie('viewed_lots', json_encode($viewed_lots));
+    setcookie('viewed_lots', json_encode($viewed_lots), strtotime("+30 days"));
 }
-
-//var_dump($viewed_lots);
 
 if (!$lot) {
     http_response_code('404');
     header("Location: 404.php");
+    die;
 }
 
 $content = render_template('lot', [
@@ -45,6 +47,7 @@ $content = render_template('lot', [
 ]);
 $layout = render_template('layout', [
     'title' => $lot['name'],
+    'username' => $_SESSION['user']['name'],
     'content' => $content,
     'is_auth' => $is_auth,
     'user_avatar' => $user_avatar,
