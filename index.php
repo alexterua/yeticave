@@ -1,12 +1,25 @@
 <?php
 
+require_once __DIR__ . '/init.php';
 require_once  __DIR__ . '/data.php';
 require_once  __DIR__ . '/userdata.php';
 require_once __DIR__ . '/functions.php';
 
-date_default_timezone_set("Europe/Kiev");
-
 session_start();
+
+if (!$link) {
+    $error = mysqli_connect_error();
+    $content = render_template('errors/error', ['error' => $error]);
+} else {
+    $sql = 'SELECT * FROM categories';
+    $result = mysqli_query($link, $sql);
+    if ($result) {
+        $categories = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    } else {
+        $error = mysqli_error($link);
+        $content = render_template('error', ['error' => $error]);
+    }
+}
 
 $content = render_template('index', [
     'lots' => $lots

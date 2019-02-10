@@ -1,3 +1,9 @@
 ugOGdVMi
 daecNazD
 oixb3aL8
+
+lots -> name, category_id, description, price, url, step, date
+users -> name, email, password
+categories -> name
+bets -> date, sum
+
